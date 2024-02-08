@@ -174,3 +174,5 @@ MonoBehaviour:
   enemyMovementSpeed: 5
   movingRight: 1
   maxDistance: 7
+  timeTillWaitingTime: 5
+  waitTime: 1

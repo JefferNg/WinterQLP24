@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
@@ -14,11 +15,18 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] bool movingRight;
     [SerializeField] float maxDistance;
 
+    [SerializeField] float timeTillWaitingTime;
+    [SerializeField] float waitTime;
+
     float move;
+    float moveTimer;
+    float restTimer;
 
     // Start is called before the first frame update
     void Start()
     {
+        moveTimer = 0;
+        restTimer = 0;
         rb = GetComponent<Rigidbody2D>();
         startPosX = rb.position.x;
         move = enemyMovementSpeed * Time.deltaTime;
@@ -27,6 +35,17 @@ public class EnemyMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        moveTimer += Time.deltaTime;
+        if(moveTimer > timeTillWaitingTime)
+        {
+            restTimer += Time.deltaTime;
+            if (restTimer > waitTime)
+            {
+                moveTimer = 0;
+                restTimer = 0;
+            }
+            return;
+        }
         float currentDistance = rb.position.x - startPosX;
 
         if((currentDistance>maxDistance && movingRight) || (currentDistance < -maxDistance && !movingRight))
