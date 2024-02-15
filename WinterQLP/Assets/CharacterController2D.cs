@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -19,7 +20,17 @@ public class CharacterController2D : MonoBehaviour
 	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 m_Velocity = Vector3.zero;
 
-	[Header("Events")]
+    private bool canDash = true;
+    private bool isDashing;
+    private float dashingPower = 24f;
+    private float dashingTime = 0.2f;
+    private float dashingCooldown = 1f;
+
+    //[SerializeField] private Transform groundCheck;
+    //[SerializeField] private LayerMask groundLayer;
+    [SerializeField] private TrailRenderer tr;
+
+    [Header("Events")]
 	[Space]
 
 	public UnityEvent OnLandEvent;
@@ -61,8 +72,22 @@ public class CharacterController2D : MonoBehaviour
 	}
 
 
-	public void Move(float move, bool crouch, bool jump)
+	public void Move(float move, bool crouch, bool jump, bool dash)
 	{
+		if (isDashing)
+		{
+            return;
+        }
+
+        // If crouching, check to see if the character can stand up
+        if (!crouch)
+		{
+            // If the character has a ceiling preventing them from standing up, keep them crouching
+            if (Physics2D.OverlapCircle(m_CeilingCheck.position, k_CeilingRadius, m_WhatIsGround))
+			{
+                crouch = true;
+            }
+        }
 		// If crouching, check to see if the character can stand up
 		if (!crouch)
 		{
@@ -131,6 +156,13 @@ public class CharacterController2D : MonoBehaviour
 			m_Grounded = false;
 			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
 		}
+
+		// If the player should dash...
+		if (canDash && dash)
+		{
+			UnityEngine.Debug.Log("LeftShift Pressed");
+            StartCoroutine(Dash());
+        }
 	}
 
 
@@ -143,5 +175,22 @@ public class CharacterController2D : MonoBehaviour
 		Vector3 theScale = transform.localScale;
 		theScale.x *= -1;
 		transform.localScale = theScale;
+    }
+
+	private IEnumerator Dash()
+	{
+        UnityEngine.Debug.Log("Dash Run");
+        canDash = false;
+		isDashing = true;
+		float originalGravity = m_Rigidbody2D.gravityScale;
+        m_Rigidbody2D.gravityScale = 0f;
+        m_Rigidbody2D.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
+		tr.emitting = true;
+		yield return new WaitForSeconds(dashingTime);
+		tr.emitting = false;
+        m_Rigidbody2D.gravityScale = originalGravity;
+		isDashing = false;
+		yield return new WaitForSeconds(dashingCooldown);
+		canDash = true;
 	}
 }

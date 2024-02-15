@@ -12,6 +12,9 @@ public class PlayerMovement : MonoBehaviour
     float horizontalMove = 0f;
     bool jump = false;
     bool crouch = false;
+    bool dash = false;
+
+
 
     // Update is called once per frame
     void Update()
@@ -33,43 +36,20 @@ public class PlayerMovement : MonoBehaviour
             crouch = false;
         }
 
+        if (Input.GetButtonDown("Dash"))
+        {
+            UnityEngine.Debug.Log("Player Movement Dash toggled");
+            dash = true;
+        }
+
     }
 
     void FixedUpdate()
     {
+
         // Move our character
-        controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
+        controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump, dash);
         jump = false;
+        dash = false;
     }
 }
-
-
-//using System. Collections;
-//using System.Collections.Generic;
-//using UnityEngine;
-
-//public class PlayerMovement : MonoBehaviour
-//{
-
-//    public CharacterController2D controller;
-
-//    public float runSpeed = 40f;
-
-//    float horizontalMove = 0f;
-
-//    // Update is called once per frame
-//    void Update()
-//    {
-
-//        horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
-
-//    }
-
-//    void FixedUpdate()
-//    {
-//        // Move our character
-//        controller.Move(horizontalMove * Time.fixedDeltaTime, false, false);
-//    }
-
-//}
-

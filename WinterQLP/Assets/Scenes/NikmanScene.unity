@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!96 &386332755 stripped
+TrailRenderer:
+  m_CorrespondingSourceObject: {fileID: 249280002983870360, guid: 7da7643505647cc48919a01e38ba8fd3, type: 3}
+  m_PrefabInstance: {fileID: 4331188502747962283}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,6 +362,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6535078095092566804, guid: 7da7643505647cc48919a01e38ba8fd3, type: 3}
+      propertyPath: tr
+      value: 
+      objectReference: {fileID: 386332755}
     - target: {fileID: 8360043778695138221, guid: 7da7643505647cc48919a01e38ba8fd3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

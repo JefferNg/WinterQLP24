@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 8420922245961614538}
   - component: {fileID: 1300947838195919364}
   - component: {fileID: 1962257178540150136}
-  - component: {fileID: 698893216526798373}
+  - component: {fileID: 249280002983870360}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -92,6 +92,7 @@ MonoBehaviour:
   m_GroundCheck: {fileID: 84420380097314585}
   m_CeilingCheck: {fileID: 1467771162431774653}
   m_CrouchDisableCollider: {fileID: 8420922245961614538}
+  tr: {fileID: 249280002983870360}
   OnLandEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -271,7 +272,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 6535078095092566804}
   runSpeed: 80
---- !u!96 &698893216526798373
+--- !u!96 &249280002983870360
 TrailRenderer:
   serializedVersion: 3
   m_ObjectHideFlags: 0
