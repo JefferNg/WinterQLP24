@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 1300947838195919364}
   - component: {fileID: 1962257178540150136}
   - component: {fileID: 698893216526798373}
+  - component: {fileID: 8506147701328488024}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -384,6 +385,18 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &8506147701328488024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614388379795820948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f07bf6ac62e263546a34168e9f53b315, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1801721859725222802
 GameObject:
   m_ObjectHideFlags: 0
