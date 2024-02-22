@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class PlayerHealth : MonoBehaviour
 {
 
-    private float health;
+    private int health;
     float deathTimer;
     float hitTimer;
 
@@ -20,7 +20,7 @@ public class PlayerHealth : MonoBehaviour
     int scene;
 
     [SerializeField]
-    float maxHealth;
+    int maxHealth;
 
     [SerializeField]
     float flickerTime;
@@ -35,9 +35,14 @@ public class PlayerHealth : MonoBehaviour
 
     bool hit = false; 
 
-    public float getHealth()
+    public int getHealth()
     {
         return health;
+    }
+
+    public int getMaxHealth()
+    {
+        return maxHealth;
     }
 
     public bool getHit()
@@ -50,7 +55,7 @@ public class PlayerHealth : MonoBehaviour
         hit = value;
     }
 
-    public void setHealth(float value)
+    public void setHealth(int value)
     {
         health = value;
     }
@@ -92,7 +97,7 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    public void isHit(float health_decrement)
+    public void isHit(int health_decrement)
     {
         if (hit)
         {
@@ -100,6 +105,7 @@ public class PlayerHealth : MonoBehaviour
         }
         hit = true;
         health -= health_decrement;
+        Debug.Log(health);
         spriteRenderer.color = flickerColor;
     }
 }
