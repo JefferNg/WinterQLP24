@@ -74,13 +74,13 @@ public class CharacterController2D : MonoBehaviour
 
 	public void Move(float move, bool crouch, bool jump, bool dash)
 	{
-		if (isDashing)
+		if (isDashing) //allowed no dashing while jumping
 		{
-            return;
-        }
+			return;
+		}
 
-        // If crouching, check to see if the character can stand up
-        if (!crouch)
+		// If crouching, check to see if the character can stand up
+		if (!crouch)
 		{
             // If the character has a ceiling preventing them from standing up, keep them crouching
             if (Physics2D.OverlapCircle(m_CeilingCheck.position, k_CeilingRadius, m_WhatIsGround))
@@ -177,20 +177,29 @@ public class CharacterController2D : MonoBehaviour
 		transform.localScale = theScale;
     }
 
-	private IEnumerator Dash()
-	{
+    private IEnumerator Dash()
+    {
         UnityEngine.Debug.Log("Dash Run");
         canDash = false;
-		isDashing = true;
-		float originalGravity = m_Rigidbody2D.gravityScale;
+        isDashing = true;
+        float originalGravity = m_Rigidbody2D.gravityScale;
         m_Rigidbody2D.gravityScale = 0f;
         m_Rigidbody2D.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
-		tr.emitting = true;
-		yield return new WaitForSeconds(dashingTime);
-		tr.emitting = false;
+        tr.emitting = true;
+        yield return new WaitForSeconds(dashingTime);
+        tr.emitting = false;
         m_Rigidbody2D.gravityScale = originalGravity;
-		isDashing = false;
-		yield return new WaitForSeconds(dashingCooldown);
-		canDash = true;
-	}
+        isDashing = false;
+
+        // Check if the character is grounded before resetting the dash cooldown
+        if (m_Grounded)
+        {
+            canDash = true;
+        }
+
+        yield return new WaitForSeconds(dashingCooldown);
+        canDash = true;
+    }
+
+
 }
