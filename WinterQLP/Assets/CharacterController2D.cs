@@ -201,39 +201,85 @@ public class CharacterController2D : MonoBehaviour
     //    canDash = true;
     //}
 
-	private IEnumerator Dash()
-	{
-		UnityEngine.Debug.Log("Dash Run");
-		canDash = false;
-		isDashing = true;
-		float originalGravity = m_Rigidbody2D.gravityScale;
-		m_Rigidbody2D.gravityScale = 0f;
+    //private IEnumerator Dash()
+    //{
+    //	UnityEngine.Debug.Log("Dash Run");
+    //	canDash = false;
+    //	isDashing = true;
+    //	float originalGravity = m_Rigidbody2D.gravityScale;
+    //	m_Rigidbody2D.gravityScale = 0f;
 
-		// Get the current horizontal and vertical inputs
-		float moveX = Input.GetAxisRaw("Horizontal");
-		float moveY = Input.GetAxisRaw("Vertical");
+    //	// Get the current horizontal and vertical inputs
+    //	float moveX = Input.GetAxisRaw("Horizontal");
+    //	float moveY = Input.GetAxisRaw("Vertical");
 
-		// Calculate the dash direction
-		Vector2 dashDirection = new Vector2(moveX, moveY).normalized;
+    //	// Calculate the dash direction
+    //	Vector2 dashDirection = new Vector2(moveX, moveY).normalized;
 
-		// Apply the dash force in the calculated direction
-		m_Rigidbody2D.velocity = dashDirection * dashingPower;
+    //	// Apply the dash force in the calculated direction
+    //	m_Rigidbody2D.velocity = dashDirection * dashingPower;
 
-		tr.emitting = true;
-		yield return new WaitForSeconds(dashingTime);
-		tr.emitting = false;
-		m_Rigidbody2D.gravityScale = originalGravity;
-		isDashing = false;
+    //	tr.emitting = true;
+    //	yield return new WaitForSeconds(dashingTime);
+    //	tr.emitting = false;
+    //	m_Rigidbody2D.gravityScale = originalGravity;
+    //	isDashing = false;
 
-		// Check if the character is grounded before resetting the dash cooldown
-		if (m_Grounded)
-		{
-			canDash = true;
-		}
+    //	// Check if the character is grounded before resetting the dash cooldown
+    //	if (m_Grounded)
+    //	{
+    //           UnityEngine.Debug.Log("Can dash again");
+    //           canDash = true;
+    //	}
 
-		yield return new WaitForSeconds(dashingCooldown);
-		canDash = true;
-	}
+    //	yield return new WaitForSeconds(dashingCooldown);
+    //	canDash = true;
+    //       UnityEngine.Debug.Log("Dash cooldown has finished");
+    //   }
+
+    private int dashCounter = 0;
+
+    private IEnumerator Dash()
+    {
+        dashCounter++;
+        UnityEngine.Debug.Log("Dash Run");
+        canDash = false;
+        isDashing = true;
+        float originalGravity = m_Rigidbody2D.gravityScale;
+        m_Rigidbody2D.gravityScale = 0f;
+
+        // Get the current horizontal and vertical inputs
+        float moveX = Input.GetAxisRaw("Horizontal");
+        float moveY = Input.GetAxisRaw("Vertical");
+
+        // Calculate the dash direction
+        Vector2 dashDirection = new Vector2(moveX, moveY).normalized;
+
+        // Apply the dash force in the calculated direction
+        m_Rigidbody2D.velocity = dashDirection * dashingPower;
+
+        tr.emitting = true;
+        yield return new WaitForSeconds(dashingTime);
+        tr.emitting = false;
+        m_Rigidbody2D.gravityScale = originalGravity;
+        isDashing = false;
+
+        // Check if the character is grounded before resetting the dash cooldown
+        if (m_Grounded)
+        {
+            UnityEngine.Debug.Log("Can dash again");
+            canDash = true;
+        }
+
+        yield return new WaitForSeconds(dashingCooldown);
+        dashCounter--;
+        if (dashCounter == 0)
+        {
+            canDash = true;
+            UnityEngine.Debug.Log("Dash cooldown has finished");
+        }
+    }
+
 
 
 
