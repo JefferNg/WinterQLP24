@@ -177,29 +177,64 @@ public class CharacterController2D : MonoBehaviour
 		transform.localScale = theScale;
     }
 
-    private IEnumerator Dash()
-    {
-        UnityEngine.Debug.Log("Dash Run");
-        canDash = false;
-        isDashing = true;
-        float originalGravity = m_Rigidbody2D.gravityScale;
-        m_Rigidbody2D.gravityScale = 0f;
-        m_Rigidbody2D.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
-        tr.emitting = true;
-        yield return new WaitForSeconds(dashingTime);
-        tr.emitting = false;
-        m_Rigidbody2D.gravityScale = originalGravity;
-        isDashing = false;
+    //private IEnumerator Dash()
+    //{
+    //    UnityEngine.Debug.Log("Dash Run");
+    //    canDash = false;
+    //    isDashing = true;
+    //    float originalGravity = m_Rigidbody2D.gravityScale;
+    //    m_Rigidbody2D.gravityScale = 0f;
+    //    m_Rigidbody2D.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
+    //    tr.emitting = true;
+    //    yield return new WaitForSeconds(dashingTime);
+    //    tr.emitting = false;
+    //    m_Rigidbody2D.gravityScale = originalGravity;
+    //    isDashing = false;
 
-        // Check if the character is grounded before resetting the dash cooldown
-        if (m_Grounded)
-        {
-            canDash = true;
-        }
+    //    // Check if the character is grounded before resetting the dash cooldown
+    //    if (m_Grounded)
+    //    {
+    //        canDash = true;
+    //    }
 
-        yield return new WaitForSeconds(dashingCooldown);
-        canDash = true;
-    }
+    //    yield return new WaitForSeconds(dashingCooldown);
+    //    canDash = true;
+    //}
+
+	private IEnumerator Dash()
+	{
+		UnityEngine.Debug.Log("Dash Run");
+		canDash = false;
+		isDashing = true;
+		float originalGravity = m_Rigidbody2D.gravityScale;
+		m_Rigidbody2D.gravityScale = 0f;
+
+		// Get the current horizontal and vertical inputs
+		float moveX = Input.GetAxisRaw("Horizontal");
+		float moveY = Input.GetAxisRaw("Vertical");
+
+		// Calculate the dash direction
+		Vector2 dashDirection = new Vector2(moveX, moveY).normalized;
+
+		// Apply the dash force in the calculated direction
+		m_Rigidbody2D.velocity = dashDirection * dashingPower;
+
+		tr.emitting = true;
+		yield return new WaitForSeconds(dashingTime);
+		tr.emitting = false;
+		m_Rigidbody2D.gravityScale = originalGravity;
+		isDashing = false;
+
+		// Check if the character is grounded before resetting the dash cooldown
+		if (m_Grounded)
+		{
+			canDash = true;
+		}
+
+		yield return new WaitForSeconds(dashingCooldown);
+		canDash = true;
+	}
+
 
 
 }
