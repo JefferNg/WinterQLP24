@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Dash"))
         {
-            UnityEngine.Debug.Log("Player Movement Dash toggled");
+            Debug.Log("Player Movement Dash toggled");
             dash = true;
         }
 
@@ -46,7 +46,6 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-
         // Move our character
         controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump, dash);
         jump = false;

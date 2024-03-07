@@ -35,6 +35,10 @@ public class EnemyMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (!GetComponent<SpriteRenderer>().isVisible)
+        {
+            return;
+        }
         moveTimer += Time.deltaTime;
         if(moveTimer > timeTillWaitingTime)
         {

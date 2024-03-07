@@ -105,7 +105,6 @@ public class PlayerHealth : MonoBehaviour
         }
         hit = true;
         health -= health_decrement;
-        Debug.Log(health);
         spriteRenderer.color = flickerColor;
     }
 }

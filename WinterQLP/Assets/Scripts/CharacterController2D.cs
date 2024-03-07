@@ -45,6 +45,8 @@ public class CharacterController2D : MonoBehaviour
 	{
 		m_Rigidbody2D = GetComponent<Rigidbody2D>();
 
+		m_GroundCheck = GameObject.FindGameObjectWithTag("GroundCheck").transform;
+
 		if (OnLandEvent == null)
 			OnLandEvent = new UnityEvent();
 
@@ -88,20 +90,10 @@ public class CharacterController2D : MonoBehaviour
                 crouch = true;
             }
         }
-		// If crouching, check to see if the character can stand up
-		if (!crouch)
-		{
-			// If the character has a ceiling preventing them from standing up, keep them crouching
-			if (Physics2D.OverlapCircle(m_CeilingCheck.position, k_CeilingRadius, m_WhatIsGround))
-			{
-				crouch = true;
-			}
-		}
 
 		//only control the player if grounded or airControl is turned on
 		if (m_Grounded || m_AirControl)
 		{
-
 			// If crouching
 			if (crouch)
 			{
@@ -176,6 +168,11 @@ public class CharacterController2D : MonoBehaviour
 		theScale.x *= -1;
 		transform.localScale = theScale;
     }
+
+	public bool getFacingRight()
+	{
+		return m_FacingRight;
+	}
 
 	private IEnumerator Dash()
 	{
